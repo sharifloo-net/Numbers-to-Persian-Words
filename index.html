@@ -3,11 +3,65 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Convert Numbers to persian words</title>
+        <title>Document</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
         <script src="js/bootstrap.min.js"></script>
-        <script src="script.js" defer></script>
-        <link rel="stylesheet" href="css/bootstrap.rtl.min.css" />
-        <link rel="stylesheet" href="style.css" />
     </head>
-    <body></body>
+    <body>
+        <section class="vh-100 gradient-custom">
+            <div class="container py-5 h-100">
+                <div
+                    class="row d-flex justify-content-center align-items-center h-100"
+                >
+                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <div
+                            class="card bg-dark text-white"
+                            style="border-radius: 1rem"
+                        >
+                            <div class="card-body text-center">
+                                <div class="mb-md-5 mt-md-4 pb-5">
+                                    <h2 class="fw-bold mb-2 text-uppercase">
+                                        number to words!
+                                    </h2>
+                                    <p class="text-white-50 mb-5">
+                                        Converting numbers to Persian words :)
+                                    </p>
+                                    <div class="d-grid gap-5">
+                                        <div class="form-floating">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="floatingInput"
+                                                placeholder=""
+                                            />
+                                            <label for="floatingInput"
+                                                >Enter a number</label
+                                            >
+                                        </div>
+                                        <div class="form-floating mt-5">
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                id="output"
+                                                placeholder="output"
+                                                disabled
+                                            />
+                                            <label for="output">output</label>
+                                        </div>
+                                    </div>
+                                    <!-- <button
+                                        class="btn btn-outline-light btn-lg px-5"
+                                        type="button"
+                                    >
+                                        Convert
+                                    </button> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
 </html>
