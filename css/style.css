@@ -1,3 +1,7 @@
+@font-face {
+    font-family: 'vazir';
+    src: url('../fonts/Vazirmatn-Regular.woff2');
+}
 * {
     box-sizing: border-box;
 }
@@ -16,4 +20,7 @@
 }
 label {
     color: #454545;
+}
+#output {
+    font-family: 'vazir';
 }
