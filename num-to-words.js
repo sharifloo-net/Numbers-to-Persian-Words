@@ -49,8 +49,13 @@ function convertNumberToPersianWords(number) {
     ];
     const persianThousands = ['', 'هزار', 'میلیون', 'میلیارد'];
 
+    let isNegative = false;
+
     if (number === 0) {
         return persianNumbers[0];
+    } else if (number < 0) {
+        number = Math.abs(number);
+        isNegative = true;
     }
 
     let words = '';
@@ -90,7 +95,7 @@ function convertNumberToPersianWords(number) {
 
         words += segmentWords + ' ';
     }
-
+    if (isNegative) words = 'منفی ' + words;
     return words.trim();
 }
 
