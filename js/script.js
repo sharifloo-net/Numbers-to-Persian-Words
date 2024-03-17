@@ -70,7 +70,6 @@ getInput.onkeydown = (e) => {
                 numWithoutCommas += e.key;
                 let num = Number(numWithoutCommas);
                 input.value = num.toLocaleString();
-                isIncludes = true;
                 break;
             }
         return false;
