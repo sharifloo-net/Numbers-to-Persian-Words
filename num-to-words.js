@@ -72,7 +72,7 @@ function convertNumberToPersianWords(number) {
             segment %= 100;
         }
 
-        if (segment >= 10 && segment <= 19) {
+        if (segment > 10 && segment < 20) {
             segmentWords += persianExceptions[segment % 10];
         } else {
             if (segment >= 10) {
