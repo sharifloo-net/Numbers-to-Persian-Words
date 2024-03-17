@@ -94,5 +94,4 @@ function convertNumberToPersianWords(number) {
     return words.trim();
 }
 
-// Example usage
-console.log(convertNumberToPersianWords(12015)); // صد بیست و سه میلیون چهارصد پنجاه و شش هزار هفتصد هشتاد و نه
+console.log(convertNumberToPersianWords(1234));
