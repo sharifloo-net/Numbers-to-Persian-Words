@@ -56,10 +56,11 @@ function convertNumberToPersianWords(number) {
         'صد هزارم',
         'میلیونم',
     ];
+    decimalSegmentsZeros = '';
     const pushNumInSegments = (num, segmentsType) => {
         while (num > 0) {
             if (segmentsType == decimalSegments) {
-                //? how to select zeros at beginning of a var?
+                decimalSegmentsZeros = num.match(/^0+/)[0];
                 segmentsType.push(String(num % 1000));
             } else segmentsType.push(num % 1000);
             num = Math.floor(num / 1000);
