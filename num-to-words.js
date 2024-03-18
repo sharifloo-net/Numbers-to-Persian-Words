@@ -208,6 +208,8 @@ function convertNumberToPersianWords(number) {
                 decimalSegmentWords += ' ' + persianThousands[count] + ' و ';
         }
         if (segmentsZeros !== '') {
+            if (segmentWords.trim().slice(-1) === 'و')
+                segmentWords = segmentWords.trim().slice(0, -1);
             segmentWords +=
                 ' ' + persianThousands[count + segmentsZeros.length / 3];
             segmentsZeros = '';
@@ -250,4 +252,4 @@ function convertNumberToPersianWords(number) {
     return words.trim();
 }
 
-console.log(convertNumberToPersianWords(200003.4));
+console.log(convertNumberToPersianWords(20000.4));
