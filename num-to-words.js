@@ -92,7 +92,8 @@ function convertNumberToPersianWords(number) {
             num = Math.floor(num / 1000);
         }
     };
-    let isNegative = false;
+    let isNegative = false,
+        isOnlyDecimal = false;
     let words = '',
         preWords = '',
         decimalAndIntSeparator = '',
@@ -105,7 +106,7 @@ function convertNumberToPersianWords(number) {
     else if (number < 0) {
         number = Math.abs(number);
         isNegative = true;
-    }
+    } else if (number > 0 && number < 1) isOnlyDecimal = true;
     if (number === Math.floor(number)) pushNumInSegments(number, segments);
     else {
         let integerPart = number.toString().split('.')[0];
@@ -230,11 +231,22 @@ function convertNumberToPersianWords(number) {
             if (decimalSegmentWords) preDecimalWords += decimalSegmentWords;
         }
         if (i === 0) {
-            if (decimalSegmentWords) {
+            if (decimalSegmentWords && !isOnlyDecimal) {
                 words +=
                     preWords +
                     ' ' +
                     ' ممیز ' +
+                    decimalWords +
+                    ' ' +
+                    preDecimalWords +
+                    ' ' +
+                    persianDecimalThousands[
+                        backupDecimalSegment.length -
+                            1 +
+                            decimalSegmentsZeros.length
+                    ];
+            } else if (isOnlyDecimal) {
+                words +=
                     decimalWords +
                     ' ' +
                     preDecimalWords +
@@ -252,4 +264,4 @@ function convertNumberToPersianWords(number) {
     return words.trim();
 }
 
-console.log(convertNumberToPersianWords(20000.4));
+console.log(convertNumberToPersianWords(0.4));
