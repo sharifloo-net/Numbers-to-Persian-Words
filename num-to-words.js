@@ -60,7 +60,10 @@ function convertNumberToPersianWords(number) {
     const pushNumInSegments = (num, segmentsType) => {
         while (num > 0) {
             if (segmentsType == decimalSegments) {
-                decimalSegmentsZeros = num.match(/^0+/)[0];
+                if (num[0] == 0)
+                    decimalSegmentsZeros = num.match(/^0+/)
+                        ? num.match(/^0+/)[0]
+                        : '';
                 segmentsType.push(String(num % 1000));
             } else segmentsType.push(num % 1000);
             num = Math.floor(num / 1000);
@@ -150,7 +153,9 @@ function convertNumberToPersianWords(number) {
                 ' ممیز ' +
                 decimalSegmentWords +
                 persianDecimalThousands[
-                    backupDecimalSegment.toString().length - 1
+                    backupDecimalSegment.toString().length -
+                        1 +
+                        decimalSegmentsZeros.length
                 ];
         } else words += segmentWords + ' ';
     }
@@ -159,4 +164,4 @@ function convertNumberToPersianWords(number) {
     return words.trim();
 }
 
-console.log(convertNumberToPersianWords(12.023));
+console.log(convertNumberToPersianWords(12.2345));
