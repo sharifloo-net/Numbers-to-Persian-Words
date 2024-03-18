@@ -221,12 +221,6 @@ function convertNumberToPersianWords(number) {
         count++;
     }
     if (isNegative) words = 'منفی ' + words;
-    // words +=
-    //     preWords +
-    //     decimalAndIntSeparator +
-    //     decimalWords +
-    //     ' ' +
-    // preDecimalWords;
     return words.trim();
 }
 
