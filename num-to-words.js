@@ -68,7 +68,8 @@ function convertNumberToPersianWords(number) {
         'ده میلیاردم',
         'صد میلیاردم',
     ];
-    var decimalSegmentsZeros = '';
+    var decimalSegmentsZeros = '',
+        segmentsZeros = '';
     const pushNumInSegments = (num, segmentsType) => {
         while (num > 0) {
             if (segmentsType == decimalSegments) {
@@ -77,7 +78,17 @@ function convertNumberToPersianWords(number) {
                         ? num.match(/^0+/)[0]
                         : '';
                 segmentsType.push(String(num % 1000));
-            } else segmentsType.push(num % 1000);
+            } else {
+                if (num.toString().endsWith('0')) {
+                    try {
+                        segmentsZeros = String(num).match(/0{3}$/)[0];
+                    } catch {
+                        segmentsZeros = '';
+                    }
+                    num = Number(String(num).replace(segmentsZeros, ''));
+                }
+                segmentsType.push(num % 1000);
+            }
             num = Math.floor(num / 1000);
         }
     };
@@ -136,21 +147,23 @@ function convertNumberToPersianWords(number) {
             decimalSegmentWords = '';
 
         if (segment >= 100) {
-            segmentWords += persianHundreds[Math.floor(segment / 100)] + ' و ';
+            segmentWords += persianHundreds[Math.floor(segment / 100)];
             segment %= 100;
+            if (segment !== 0) segmentWords += ' و ';
         } else if (decimalSegment >= 100) {
             decimalSegmentWords +=
-                persianHundreds[Math.floor(decimalSegment / 100)] + ' و ';
+                persianHundreds[Math.floor(decimalSegment / 100)];
             decimalSegment %= 100;
+            if (decimalSegment !== 0) decimalSegmentWords += ' و ';
         }
         if (segment != null) {
             if (segment > 10 && segment < 20) {
                 segmentWords += persianExceptions[segment % 10];
             } else {
                 if (segment >= 10) {
-                    segmentWords +=
-                        persianTens[Math.floor(segment / 10)] + ' و ';
+                    segmentWords += persianTens[Math.floor(segment / 10)];
                     segment %= 10;
+                    if (segment !== 0) segmentWords += ' و ';
                 }
                 if (segment > 0) {
                     segmentWords += persianNumbers[segment];
@@ -162,8 +175,9 @@ function convertNumberToPersianWords(number) {
             } else {
                 if (decimalSegment >= 10) {
                     decimalSegmentWords +=
-                        persianTens[Math.floor(decimalSegment / 10)] + ' و ';
+                        persianTens[Math.floor(decimalSegment / 10)];
                     decimalSegment %= 10;
+                    if (decimalSegment !== 0) decimalSegmentWords += ' و ';
                 }
                 if (decimalSegment > 0) {
                     decimalSegmentWords += persianNumbers[decimalSegment] + ' ';
@@ -180,13 +194,26 @@ function convertNumberToPersianWords(number) {
             count !== 0
         ) {
             if (preWords) segmentWords += ' ' + persianThousands[count] + ' و ';
-            if (preDecimalWords)
+            if (preDecimalWords && segmentsZeros === '')
                 decimalSegmentWords += ' ' + persianThousands[count] + ' و ';
         }
-
-        //* new Codes
-
-        //* here
+        if (segmentsZeros !== '') {
+            //* here
+            let zerosLength = segmentsZeros.length,
+                zeros;
+            if (zerosLength % 3 === 0) zeros = zerosLength / 3;
+            else {
+                while (zerosLength / 3 > 0) {
+                    if (zerosLength % 3 === 0) {
+                        zeros += zerosLength / 3;
+                        break;
+                    }
+                    zerosLength -= zerosLength % 3;
+                    zeros++;
+                }
+            }
+            segmentWords += ' ' + persianThousands[count + zeros];
+        }
         if (
             i <
                 segments.length -
@@ -224,4 +251,4 @@ function convertNumberToPersianWords(number) {
     return words.trim();
 }
 
-console.log(convertNumberToPersianWords(1000));
+console.log(convertNumberToPersianWords(200000));
