@@ -57,18 +57,14 @@ function convertNumberToPersianWords(number) {
         'میلیونم',
     ];
     const pushNumInSegments = (num, segmentsType) => {
-            while (num > 0) {
-                if (segmentsType == decimalSegments) {
-                    //? how to select zeros at beginning of a var?
-                    segmentsType.push(String(num % 1000));
-                } else segmentsType.push(num % 1000);
-                num = Math.floor(num / 1000);
-            }
-        },
-        convertToWordsLoop = (isInteger = true) => {
-            if (isInteger) return true;
-            return false;
-        };
+        while (num > 0) {
+            if (segmentsType == decimalSegments) {
+                //? how to select zeros at beginning of a var?
+                segmentsType.push(String(num % 1000));
+            } else segmentsType.push(num % 1000);
+            num = Math.floor(num / 1000);
+        }
+    };
     let isNegative = false;
     let words = '';
     let segments = [],
