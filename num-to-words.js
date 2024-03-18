@@ -47,7 +47,14 @@ function convertNumberToPersianWords(number) {
         'هشتصد',
         'نهصد',
     ];
-    const persianThousands = ['', 'هزار', 'میلیون', 'میلیارد'];
+    const persianThousands = [
+        '',
+        'هزار',
+        'میلیون',
+        'میلیارد',
+        'تریلیون',
+        'کوادریلیون',
+    ];
     const persianDecimalThousands = [
         'دهم',
         'صدم',
@@ -55,6 +62,11 @@ function convertNumberToPersianWords(number) {
         'ده هزارم',
         'صد هزارم',
         'میلیونم',
+        'ده میلیونم',
+        'صد میلیونم',
+        'میلیاردم',
+        'ده میلیاردم',
+        'صد میلیاردم',
     ];
     var decimalSegmentsZeros = '';
     const pushNumInSegments = (num, segmentsType) => {
@@ -70,7 +82,11 @@ function convertNumberToPersianWords(number) {
         }
     };
     let isNegative = false;
-    let words = '';
+    let words = '',
+        preWords = '',
+        decimalAndIntSeparator = '',
+        decimalWords = '',
+        preDecimalWords = '';
     let segments = [],
         decimalSegments = [];
 
@@ -87,6 +103,12 @@ function convertNumberToPersianWords(number) {
         pushNumInSegments(integerPart, segments);
         pushNumInSegments(decimalPart, decimalSegments);
     }
+
+    //* Vars for loop
+    let count = 0;
+    let isFirstDecimalSegment = true;
+    let backupDecimalSegment = '';
+
     for (
         i =
             segments.length -
@@ -96,13 +118,20 @@ function convertNumberToPersianWords(number) {
         i--
     ) {
         let segment = null,
-            decimalSegment = null,
-            backupDecimalSegment = null;
-        if (segments[i - 1] != null) segment = segments[i - 1];
-        else {
-            decimalSegment = backupDecimalSegment = decimalSegments[i]; //* here
+            decimalSegment = null;
+        if (segments[count] != null && segments[count] != '') {
+            segment = segments[count];
+            segments[count] = null;
+        } else {
+            if (isFirstDecimalSegment) {
+                count = 0;
+                isFirstDecimalSegment = false;
+            }
+            decimalSegment = decimalSegments[count];
+            backupDecimalSegment += String(decimalSegments[count]); //? is need String() ?
+            decimalSegments[count] = null;
         }
-        if (segment === 0) continue;
+        if (segment === 0) continue; //? needs count++ ?
         let segmentWords = '',
             decimalSegmentWords = '';
 
@@ -114,8 +143,7 @@ function convertNumberToPersianWords(number) {
                 persianHundreds[Math.floor(decimalSegment / 100)] + ' و ';
             decimalSegment %= 100;
         }
-        //* changed
-        if (segment != null && segment != 0) {
+        if (segment != null) {
             if (segment > 10 && segment < 20) {
                 segmentWords += persianExceptions[segment % 10];
             } else {
@@ -126,7 +154,6 @@ function convertNumberToPersianWords(number) {
                 }
                 if (segment > 0) {
                     segmentWords += persianNumbers[segment];
-                    segment = 0; //* new code
                 }
             }
         } else {
@@ -143,25 +170,82 @@ function convertNumberToPersianWords(number) {
                 }
             }
         }
-        if (i > segments.length - 1 + decimalSegments.length) {
-            if (segmentWords != '')
-                segmentWords += ' ' + persianThousands[i] + ' و ';
-            else decimalSegmentWords += ' ' + persianThousands[i] + ' و ';
+        if (
+            i <
+                segments.length -
+                    1 +
+                    (decimalSegments.length != 0
+                        ? decimalSegments.length - 1
+                        : 0) &&
+            count !== 0
+        ) {
+            if (preWords) segmentWords += ' ' + persianThousands[count] + ' و ';
+            if (preDecimalWords)
+                decimalSegmentWords += ' ' + persianThousands[count] + ' و ';
         }
-        if (i === 0 && decimalSegmentWords !== '') {
-            words +=
-                ' ممیز ' +
-                decimalSegmentWords +
-                persianDecimalThousands[
-                    backupDecimalSegment.toString().length -
-                        1 +
-                        decimalSegmentsZeros.length
-                ];
-        } else words += segmentWords + ' ';
+
+        //* Old codes...
+        // if (segmentWords) {
+        //     if (
+        //         i <
+        //             segments.length -
+        //                 1 +
+        //                 (decimalSegments.length != 0
+        //                     ? decimalSegments.length
+        //                     : 0) &&
+        //         count !== 0
+        //     )
+        //         words += segmentWords;
+        //     else preWords += segmentWords;
+        // } else {
+        //     if (i === 0) decimalWords += decimalSegmentWords;
+        //     else preDecimalWords += decimalSegmentWords;
+        // }
+
+        //* new Codes
+
+        //* here
+        if (
+            i <
+                segments.length -
+                    1 +
+                    (decimalSegments.length != 0
+                        ? decimalSegments.length
+                        : 0) &&
+            count !== 0
+        ) {
+            if (segmentWords) words += segmentWords;
+            if (decimalSegmentWords) decimalWords += decimalSegmentWords;
+        } else {
+            if (segmentWords) preWords += segmentWords;
+            else preDecimalWords += decimalSegmentWords;
+        }
+        if (i === 0) {
+            if (decimalSegmentWords) {
+                words +=
+                    preWords +
+                    ' ' +
+                    ' ممیز ' +
+                    decimalWords +
+                    ' ' +
+                    preDecimalWords +
+                    persianDecimalThousands[
+                        backupDecimalSegment.length -
+                            1 +
+                            decimalSegmentsZeros.length
+                    ];
+            } else words += preWords;
+        }
+        count++;
     }
     if (isNegative) words = 'منفی ' + words;
-
+    // words +=
+    //     preWords +
+    //     decimalAndIntSeparator +
+    //     decimalWords +
+    //     ' ' +
+    // preDecimalWords;
     return words.trim();
 }
 
-console.log(convertNumberToPersianWords(12.2345));
+console.log(convertNumberToPersianWords(1234.5678));
