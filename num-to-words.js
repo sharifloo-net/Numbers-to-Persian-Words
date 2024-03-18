@@ -56,7 +56,7 @@ function convertNumberToPersianWords(number) {
         'صد هزارم',
         'میلیونم',
     ];
-    decimalSegmentsZeros = '';
+    var decimalSegmentsZeros = '';
     const pushNumInSegments = (num, segmentsType) => {
         while (num > 0) {
             if (segmentsType == decimalSegments) {
