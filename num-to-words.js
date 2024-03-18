@@ -147,23 +147,21 @@ function convertNumberToPersianWords(number) {
             decimalSegmentWords = '';
 
         if (segment >= 100) {
-            segmentWords += persianHundreds[Math.floor(segment / 100)];
+            segmentWords += persianHundreds[Math.floor(segment / 100)] + ' و ';
             segment %= 100;
-            if (segment !== 0) segmentWords += ' و ';
         } else if (decimalSegment >= 100) {
             decimalSegmentWords +=
-                persianHundreds[Math.floor(decimalSegment / 100)];
+                persianHundreds[Math.floor(decimalSegment / 100)] + ' و ';
             decimalSegment %= 100;
-            if (decimalSegment !== 0) decimalSegmentWords += ' و ';
         }
         if (segment != null) {
             if (segment > 10 && segment < 20) {
                 segmentWords += persianExceptions[segment % 10];
             } else {
                 if (segment >= 10) {
-                    segmentWords += persianTens[Math.floor(segment / 10)];
+                    segmentWords +=
+                        persianTens[Math.floor(segment / 10)] + ' و ';
                     segment %= 10;
-                    if (segment !== 0) segmentWords += ' و ';
                 }
                 if (segment > 0) {
                     segmentWords += persianNumbers[segment];
@@ -175,15 +173,22 @@ function convertNumberToPersianWords(number) {
             } else {
                 if (decimalSegment >= 10) {
                     decimalSegmentWords +=
-                        persianTens[Math.floor(decimalSegment / 10)];
+                        persianTens[Math.floor(decimalSegment / 10)] + ' و ';
                     decimalSegment %= 10;
-                    if (decimalSegment !== 0) decimalSegmentWords += ' و ';
                 }
                 if (decimalSegment > 0) {
-                    decimalSegmentWords += persianNumbers[decimalSegment] + ' ';
+                    decimalSegmentWords += persianNumbers[decimalSegment];
                 }
             }
         }
+        //* here
+        // console.log(
+        //     i,
+        //     segments.length -
+        //         1 +
+        //         (decimalSegments.length != 0 ? decimalSegments.length - 1 : 0),
+        //     count
+        // );
         if (
             i <
                 segments.length -
@@ -191,14 +196,13 @@ function convertNumberToPersianWords(number) {
                     (decimalSegments.length != 0
                         ? decimalSegments.length - 1
                         : 0) &&
-            count !== 0 &&
             segmentsZeros === ''
         ) {
-            if (preWords) segmentWords += ' ' + persianThousands[count] + ' و ';
+            if (preWords)
+                segmentWords += ' ' + persianThousands[count + 1] + ' و ';
             if (preDecimalWords && segmentsZeros === '')
                 decimalSegmentWords += ' ' + persianThousands[count] + ' و ';
         }
-        //* here
         if (segmentsZeros !== '') {
             segmentWords +=
                 ' ' + persianThousands[count + segmentsZeros.length / 3];
@@ -241,4 +245,4 @@ function convertNumberToPersianWords(number) {
     return words.trim();
 }
 
-console.log(convertNumberToPersianWords(200000.3));
+console.log(convertNumberToPersianWords(200003.4));
