@@ -53,7 +53,6 @@ document.getElementById('clear').onclick = () => {
     clear();
 };
 getInput.onkeydown = (e) => {
-    //! add dot else if
     let numWithoutCommas, num; //* Vars for Backspace & Number keys
 
     if ((e.code === 'KeyR' && e.ctrlKey) || e.metaKey || e.code === 'F5') {
