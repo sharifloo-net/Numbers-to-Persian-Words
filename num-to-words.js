@@ -199,14 +199,28 @@ function convertNumberToPersianWords(number) {
                         : 0) &&
             segmentsZeros === ''
         ) {
-            if (preWords) {
+            if (words) {
+                //* if only integer numbers exist
+
+                if (words.trim().slice(-1) === 'و')
+                    words = words.trim().slice(0, -1);
+                words +=
+                    ' ' +
+                    persianThousands[decimalSegmentWords ? count + 1 : count] +
+                    ' و ';
+            } else if (preWords) {
+                //* if decimal numbers exist too.
+
                 if (segmentWords.trim().slice(-1) === 'و')
                     segmentWords = segmentWords.trim().slice(0, -1);
-                segmentWords += ' ' + persianThousands[count] + ' و ';
-                // if (segments[count + 1]) {
-                //     segmentWords += ' و ';
-                // }
+                segmentWords +=
+                    ' ' +
+                    persianThousands[decimalSegmentWords ? count + 1 : count] +
+                    ' و ';
             }
+            // if (segments[count + 1]) {
+            //     segmentWords += ' و ';
+            // }
             if (preDecimalWords && segmentsZeros === '')
                 decimalSegmentWords += ' ' + persianThousands[count] + ' و ';
         }
