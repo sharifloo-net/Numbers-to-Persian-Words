@@ -53,6 +53,7 @@ document.getElementById('clear').onclick = () => {
     clear();
 };
 getInput.onkeydown = (e) => {
+    //! add dot else if
     let numWithoutCommas, num; //* Vars for Backspace & Number keys
 
     if ((e.code === 'KeyR' && e.ctrlKey) || e.metaKey || e.code === 'F5') {
@@ -75,6 +76,9 @@ getInput.onkeydown = (e) => {
             output.value = convertNumberToPersianWords(num);
         }
         return false;
+    } else if (e.code == 'Period' || e.code == 'NumpadDecimal') {
+        if (input.value.includes('.')) return false;
+        input.value += '.';
     }
 
     let isItInAllowedKeys = false;
