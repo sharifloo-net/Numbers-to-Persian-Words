@@ -63,7 +63,14 @@ getInput.onkeydown = (e) => {
         return true;
     } else if (e.code === 'Delete' || e.code === 'Escape') clear();
     else if (e.code === 'Backspace') {
-        if (input.value.length === 1) clear();
+        let inputRegexMatch;
+        try {
+            input.value.match(/^0\.\d/)[0];
+            inputRegexMatch = true;
+        } catch {
+            inputRegexMatch = false;
+        }
+        if (input.value.length === 1 || inputRegexMatch) clear();
         else if (input.value !== '') {
             numWithoutCommas = input.value.replaceAll(',', '');
             numWithoutCommas = numWithoutCommas.slice(0, -1);
