@@ -263,3 +263,5 @@ function convertNumberToPersianWords(number) {
     if (isNegative) words = 'منفی ' + words;
     return words.trim();
 }
+
+export { convertNumberToPersianWords };
