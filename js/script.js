@@ -64,7 +64,7 @@ getInput.onkeydown = (e) => {
     } else if (e.code === 'Delete' || e.code === 'Escape') clear();
     else if (e.code === 'Backspace') {
         if (input.value.length === 1) clear();
-        else {
+        else if (input.value !== '') {
             numWithoutCommas = input.value.replaceAll(',', '');
             numWithoutCommas = numWithoutCommas.slice(0, -1);
             num = Number(numWithoutCommas);
