@@ -1,5 +1,5 @@
 import { convertNumberToPersianWords } from '../num-to-words.js';
-console.log(convertNumberToPersianWords(203000));
+console.log(convertNumberToPersianWords(200003));
 
 const getInput = document.querySelector('body'),
     input = document.getElementById('input');
