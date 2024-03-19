@@ -122,7 +122,7 @@ function convertNumberToPersianWords(number) {
     let backupDecimalSegment = '';
 
     for (
-        i =
+        let i =
             segments.length -
             1 +
             (decimalSegments.length != 0 ? decimalSegments.length : 0);
@@ -263,5 +263,3 @@ function convertNumberToPersianWords(number) {
     if (isNegative) words = 'منفی ' + words;
     return words.trim();
 }
-
-console.log(convertNumberToPersianWords(0.4));
