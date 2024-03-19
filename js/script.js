@@ -2,7 +2,8 @@ import { convertNumberToPersianWords } from '../num-to-words.js';
 console.log(convertNumberToPersianWords(1234.5));
 
 const getInput = document.querySelector('body'),
-    input = document.getElementById('input');
+    input = document.getElementById('input'),
+    output = document.getElementById('output');
 const numbers = [
     'Numpad0',
     'Numpad1',
@@ -26,7 +27,6 @@ const numbers = [
     'Digit9',
 ];
 const allowedKeys = [
-    'Backspace',
     'Delete',
     'ArrowUp',
     'ArrowDown',
@@ -45,6 +45,7 @@ const allowedKeys = [
     'NumpadAdd',
     'NumpadSubtract',
 ];
+const importantKeys = ['NumpadDecimal', 'Period', 'Backspace'];
 const clear = () => {
     input.value = output.value = '';
 };
@@ -52,6 +53,8 @@ document.getElementById('clear').onclick = () => {
     clear();
 };
 getInput.onkeydown = (e) => {
+    let numWithoutCommas, num; //* Vars for Backspace & Number keys
+
     if ((e.code === 'KeyR' && e.ctrlKey) || e.metaKey || e.code === 'F5') {
         location.reload();
         return true;
@@ -59,20 +62,38 @@ getInput.onkeydown = (e) => {
         location.reload(true);
         return true;
     } else if (e.code === 'Delete' || e.code === 'Escape') clear();
+    else if (e.code === 'Backspace') {
+        if (input.value.length === 1) clear();
+        else {
+            numWithoutCommas = input.value.replaceAll(',', '');
+            numWithoutCommas = numWithoutCommas.replace(
+                numWithoutCommas[numWithoutCommas.length - 1],
+                ''
+            );
+            num = Number(numWithoutCommas);
+            input.value = num.toLocaleString();
+            output.value = convertNumberToPersianWords(num);
+        }
+        return false;
+    }
+
     let isItInAllowedKeys = false;
+
     for (let i = allowedKeys.length - 1; i >= 0; i--) {
         if (e.code.includes(allowedKeys[i])) {
             isItInAllowedKeys = true;
             break;
         }
     }
+
     if (!isItInAllowedKeys) {
         for (let i = numbers.length - 1; i >= 0; i--)
             if (e.code.includes(numbers[i])) {
-                let numWithoutCommas = input.value.replaceAll(',', '');
+                numWithoutCommas = input.value.replaceAll(',', '');
                 numWithoutCommas += e.key;
-                let num = Number(numWithoutCommas);
+                num = Number(numWithoutCommas);
                 input.value = num.toLocaleString();
+                output.value = convertNumberToPersianWords(num);
                 break;
             }
         return false;
