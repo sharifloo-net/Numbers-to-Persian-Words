@@ -183,13 +183,13 @@ function convertNumberToPersianWords(number) {
             }
         }
         //* here
-        console.log(
-            i,
-            segments.length -
-                1 +
-                (decimalSegments.length != 0 ? decimalSegments.length - 1 : 0),
-            count
-        );
+        // console.log(
+        //     i,
+        //     segments.length -
+        //         1 +
+        //         (decimalSegments.length != 0 ? decimalSegments.length - 1 : 0),
+        //     count
+        // );
         if (
             i <
                 segments.length -
