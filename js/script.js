@@ -98,7 +98,7 @@ getInput.onkeydown = (e) => {
                 if (isNaN(e.key)) return false;
                 numWithoutCommas = input.value.replaceAll(',', '');
                 numWithoutCommas += e.key;
-                num = Number(numWithoutCommas);
+                num = +numWithoutCommas;
                 input.value = num.toLocaleString();
                 output.value = convertNumberToPersianWords(num);
                 break;
