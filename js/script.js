@@ -1,5 +1,4 @@
 import { convertNumberToPersianWords } from '../num-to-words.js';
-console.log(convertNumberToPersianWords(1234.5));
 
 const getInput = document.querySelector('body'),
     input = document.getElementById('input'),
@@ -96,6 +95,7 @@ getInput.onkeydown = (e) => {
     if (!isItInAllowedKeys) {
         for (let i = numbers.length - 1; i >= 0; i--)
             if (e.code.includes(numbers[i])) {
+                if (isNaN(e.key)) return false;
                 numWithoutCommas = input.value.replaceAll(',', '');
                 numWithoutCommas += e.key;
                 num = Number(numWithoutCommas);
