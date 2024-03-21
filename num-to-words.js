@@ -82,7 +82,7 @@ function convertNumberToPersianWords(number) {
                 try {
                     segmentsZeros += String(num).match(/0{3}$/)[0];
                 } catch {}
-                num.toString().replace(segmentsZeros, ''); //* hello
+                num.toString().replace(segmentsZeros, '');
                 segmentsType.push(num % 1000);
             }
             num = Math.floor(num / 1000);
@@ -194,10 +194,8 @@ function convertNumberToPersianWords(number) {
                         : 0) &&
             segmentsZeros === ''
         ) {
-            //* Here!
-            let persianThousandsVal =
+            let persianThousandsVal = //* for ifs
                 persianThousands[decimalSegmentWords ? count + 1 : count];
-            //* for ifs
 
             if (words && preWords && segmentWords) {
                 if (
@@ -210,13 +208,14 @@ function convertNumberToPersianWords(number) {
                 segmentWords = '';
             } else if (words) {
                 //* if only integer numbers exist
+
                 if (
                     words.trim().slice(-1) === 'و' &&
                     words.trim().slice(-2) === ' '
                 )
                     words = words.trim().slice(0, -1);
                 words += ' ' + persianThousandsVal + ' و ';
-            } else if (preWords) {
+            } else if (preWords && preWords !== ' هزار') {
                 //* if decimal numbers exist too.
 
                 if (
@@ -225,6 +224,7 @@ function convertNumberToPersianWords(number) {
                 )
                     segmentWords = segmentWords.trim().slice(0, -1);
                 segmentWords += ' ' + persianThousandsVal + ' و ';
+                ``;
             }
             // if (segments[count + 1]) {
             //     segmentWords += ' و ';
@@ -286,7 +286,19 @@ function convertNumberToPersianWords(number) {
                             1 +
                             decimalSegmentsZeros.length
                     ];
-            } else words += preWords; //* No problem
+            } else {
+                if (
+                    words.slice(-2) === 'و ' &&
+                    (preWords === ' هزار' ||
+                        preWords === ' میلیون' ||
+                        preWords === ' میلیارد' ||
+                        preWords === ' تریلیون' ||
+                        preWords === ' کوادریلیون')
+                ) {
+                    words = words.replace(words.slice(-2, -1), ''); // hi
+                    words = words.trim() + ' ' + preWords.trim();
+                } else words += preWords; //* No problem
+            }
         }
         count++;
     }
@@ -296,4 +308,4 @@ function convertNumberToPersianWords(number) {
 
 export { convertNumberToPersianWords };
 
-console.log(convertNumberToPersianWords(1254323313.0345));
+console.log(convertNumberToPersianWords(100000));
