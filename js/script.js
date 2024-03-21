@@ -106,3 +106,6 @@ getInput.onkeydown = (e) => {
         return false;
     }
 };
+
+input.focus();
+output.value = '';

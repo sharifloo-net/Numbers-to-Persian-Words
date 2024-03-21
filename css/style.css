@@ -24,3 +24,7 @@ label {
 #output {
     font-family: 'vazir';
 }
+textarea {
+    height: 8rem !important;
+    direction: rtl;
+}
