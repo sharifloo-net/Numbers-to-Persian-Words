@@ -151,7 +151,6 @@ function convertNumberToPersianWords(number) {
             backupDecimalSegment += String(decimalSegments[count]); //? is need String() ?
             decimalSegments[count] = null;
         }
-        // if (segment === 0) continue; //? needs count++ ?
         let segmentWords = '',
             decimalSegmentWords = '';
 
@@ -239,12 +238,9 @@ function convertNumberToPersianWords(number) {
                     persianThousands[
                         decimalSegmentWords ? count + 1 : count + digits
                     ] +
-                    ' و '; // here
+                    ' و ';
                 ``;
             }
-            // if (segments[count + 1]) {
-            //     segmentWords += ' و ';
-            // }
             if (preDecimalWords && segmentsZeros === '')
                 decimalSegmentWords += ' ' + persianThousands[count] + ' و ';
         }
@@ -268,7 +264,7 @@ function convertNumberToPersianWords(number) {
             count !== 0
         ) {
             if (segmentWords) {
-                if (words) words = segmentWords + words; //* changed...
+                if (words) words = segmentWords + words;
                 else words += segmentWords;
             }
             if (decimalSegmentWords) decimalWords += decimalSegmentWords;
@@ -311,9 +307,9 @@ function convertNumberToPersianWords(number) {
                         preWords === ' تریلیون' ||
                         preWords === ' کوادریلیون')
                 ) {
-                    words = words.replace(words.slice(-2, -1), ''); // hi
+                    words = words.replace(words.slice(-2, -1), '');
                     words = words.trim() + ' ' + preWords.trim();
-                } else words += preWords; //* No problem
+                } else words += preWords;
             }
         }
         count++;
