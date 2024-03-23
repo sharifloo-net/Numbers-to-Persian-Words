@@ -202,7 +202,7 @@ function convertNumberToPersianWords(number) {
             if (words && preWords && segmentWords) {
                 if (
                     segmentWords.trim().slice(-1) === 'و' &&
-                    segmentWords.trim().slice(-2) === ' '
+                    segmentWords.trim().slice(-2) !== 'دو'
                 )
                     segmentWords = segmentWords.trim().slice(0, -1);
                 words =
@@ -210,7 +210,6 @@ function convertNumberToPersianWords(number) {
                 segmentWords = '';
             } else if (words) {
                 //* if only integer numbers exist
-
                 if (
                     words.trim().slice(-1) === 'و' &&
                     words.trim().slice(-2) === ' '
@@ -222,7 +221,7 @@ function convertNumberToPersianWords(number) {
 
                 if (
                     segmentWords.trim().slice(-1) === 'و' &&
-                    segmentWords.trim().slice(-2) === ' '
+                    segmentWords.trim().slice(-2) !== 'دو'
                 )
                     segmentWords = segmentWords.trim().slice(0, -1);
                 segmentWords += ' ' + persianThousandsVal + ' و ';
@@ -237,7 +236,7 @@ function convertNumberToPersianWords(number) {
         if (segmentsZeros !== '') {
             if (
                 segmentWords.trim().slice(-1) === 'و' &&
-                segmentWords.trim().slice(-2) === ' '
+                segmentWords.trim().slice(-2) !== 'دو'
             )
                 segmentWords = segmentWords.trim().slice(0, -1);
             segmentWords +=
@@ -310,4 +309,4 @@ function convertNumberToPersianWords(number) {
 
 export { convertNumberToPersianWords };
 
-console.log(convertNumberToPersianWords(10000000));
+console.log(convertNumberToPersianWords(20000000));
