@@ -151,7 +151,7 @@ function convertNumberToPersianWords(number) {
                 isFirstDecimalSegment = false;
             }
             decimalSegment = decimalSegments[count];
-            backupDecimalSegment += String(decimalSegments[count]); //? is need String() ?
+            backupDecimalSegment += String(decimalSegments[count]);
             decimalSegments[count] = null;
         }
         let segmentWords = '',
@@ -229,13 +229,11 @@ function convertNumberToPersianWords(number) {
                     words = words.trim().slice(0, -1);
                 words += ' ' + persianThousandsVal + ' و ';
             } else if (preWords && preWords !== ' هزار') {
-                //* if decimal numbers exist too.
                 if (
                     segmentWords.trim().slice(-1) === 'و' &&
                     segmentWords.trim().slice(-2) !== 'دو'
                 )
                     segmentWords = segmentWords.trim().slice(0, -1);
-                //* here
                 segmentWords +=
                     ' ' +
                     persianThousands[
@@ -325,4 +323,4 @@ function convertNumberToPersianWords(number) {
 
 export { convertNumberToPersianWords };
 
-console.log(convertNumberToPersianWords(100200000));
+console.log(convertNumberToPersianWords(100200000.123));
