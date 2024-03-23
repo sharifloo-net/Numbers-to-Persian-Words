@@ -79,10 +79,12 @@ function convertNumberToPersianWords(number) {
                         : '';
                 segmentsType.push(String(num % 1000));
             } else {
-                try {
-                    segmentsZeros += String(num).match(/0{3}$/)[0];
-                } catch {}
-                num.toString().replace(segmentsZeros, '');
+                while (num.toString().includes('000')) {
+                    try {
+                        segmentsZeros += String(num).match(/0{3}$/)[0];
+                    } catch {}
+                    num = num.toString().replace('000', '');
+                }
                 segmentsType.push(num % 1000);
             }
             num = Math.floor(num / 1000);
@@ -308,4 +310,4 @@ function convertNumberToPersianWords(number) {
 
 export { convertNumberToPersianWords };
 
-console.log(convertNumberToPersianWords(100000));
+console.log(convertNumberToPersianWords(10000000));
