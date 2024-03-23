@@ -70,6 +70,9 @@ function convertNumberToPersianWords(number) {
     ];
     var decimalSegmentsZeros = '',
         segmentsZeros = '';
+
+    var digits = 0,
+        isFirstSegmentsZerosLoop = true;
     const pushNumInSegments = (num, segmentsType) => {
         while (num > 0) {
             if (segmentsType == decimalSegments) {
@@ -79,13 +82,20 @@ function convertNumberToPersianWords(number) {
                         : '';
                 segmentsType.push(String(num % 1000));
             } else {
-                while (num.toString().includes('000')) {
-                    try {
-                        segmentsZeros += String(num).match(/0{3}$/)[0];
-                    } catch {}
-                    num = num.toString().replace('000', '');
-                }
-                segmentsType.push(num % 1000);
+                try {
+                    while (
+                        String(num).match(/0{3}$/)[0] &&
+                        isFirstSegmentsZerosLoop
+                    ) {
+                        try {
+                            segmentsZeros += String(num).match(/0{3}$/)[0];
+                        } catch {}
+                        num = num.toString().replace('000', '');
+                    }
+                } catch {}
+                if (num % 1000 === 0) digits++;
+                else segmentsType.push(num % 1000);
+                isFirstSegmentsZerosLoop = false;
             }
             num = Math.floor(num / 1000);
         }
@@ -224,7 +234,12 @@ function convertNumberToPersianWords(number) {
                     segmentWords.trim().slice(-2) !== 'دو'
                 )
                     segmentWords = segmentWords.trim().slice(0, -1);
-                segmentWords += ' ' + persianThousandsVal + ' و ';
+                segmentWords +=
+                    ' ' +
+                    persianThousands[
+                        decimalSegmentWords ? count + 1 : count + digits
+                    ] +
+                    ' و '; // here
                 ``;
             }
             // if (segments[count + 1]) {
@@ -309,4 +324,4 @@ function convertNumberToPersianWords(number) {
 
 export { convertNumberToPersianWords };
 
-console.log(convertNumberToPersianWords(20000000));
+console.log(convertNumberToPersianWords(1000003));
