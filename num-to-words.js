@@ -200,7 +200,7 @@ function convertNumberToPersianWords(number) {
         //     count
         // );
         if (
-            i <
+            i <=
                 segments.length -
                     1 +
                     (decimalSegments.length != 0
@@ -323,4 +323,4 @@ function convertNumberToPersianWords(number) {
 
 export { convertNumberToPersianWords };
 
-console.log(convertNumberToPersianWords(100200000.123));
+console.log(convertNumberToPersianWords(0.5452));
