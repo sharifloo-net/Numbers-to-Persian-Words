@@ -228,7 +228,7 @@ function convertNumberToPersianWords(number) {
                 )
                     words = words.trim().slice(0, -1);
                 words += ' ' + persianThousandsVal + ' و ';
-            } else if (preWords && preWords !== ' هزار') {
+            } else if (preWords && preWords !== ' هزار' && segmentWords) {
                 if (
                     segmentWords.trim().slice(-1) === 'و' &&
                     segmentWords.trim().slice(-2) !== 'دو'
@@ -323,4 +323,4 @@ function convertNumberToPersianWords(number) {
 
 export { convertNumberToPersianWords };
 
-console.log(convertNumberToPersianWords(0.5452));
+console.log(convertNumberToPersianWords(5.2));
