@@ -68,7 +68,7 @@ getInput.onkeydown = (e) => {
     else if (e.code === 'Backspace') {
         let inputRegexMatch;
         try {
-            input.value.match(/^0\.\d/)[0];
+            input.value.match(/^0\.\d\b/)[0];
             inputRegexMatch = true;
         } catch {
             inputRegexMatch = false;
@@ -77,9 +77,23 @@ getInput.onkeydown = (e) => {
         else if (input.value !== '') {
             numWithoutCommas = input.value.replaceAll(',', '');
             numWithoutCommas = numWithoutCommas.slice(0, -1);
-            num = +numWithoutCommas;
-            input.value = num.toLocaleString();
-            output.value = convertNumberToPersianWords(num);
+            if (numWithoutCommas.includes('.') && numWithoutCommas >= 1) {
+                //* if both decimal number and integer number are exist
+
+                num = +numWithoutCommas.split('.')[0];
+                decimalNum = numWithoutCommas.split('.')[1];
+                input.value = num.toLocaleString() + '.' + decimalNum;
+                output.value = convertNumberToPersianWords(
+                    num + '.' + decimalNum
+                );
+            } else {
+                //* if only decimal number or integer number exists
+
+                num = +numWithoutCommas;
+                if (num >= 1) input.value = num.toLocaleString();
+                else input.value = num;
+                output.value = convertNumberToPersianWords(num);
+            }
         }
         return false;
     } else if (e.code == 'Period' || e.code == 'NumpadDecimal') {
