@@ -52,7 +52,11 @@ document.getElementById('clear').onclick = () => {
     clear();
 };
 getInput.onkeydown = (e) => {
-    let numWithoutCommas, num; //* Vars for Backspace & Number keys
+    //* Vars for Backspace & Number keys
+
+    let numWithoutCommas,
+        num,
+        decimalNum = '';
 
     if ((e.code === 'KeyR' && e.ctrlKey) || e.metaKey || e.code === 'F5') {
         location.reload();
@@ -98,9 +102,17 @@ getInput.onkeydown = (e) => {
                 if (isNaN(e.key)) return false;
                 numWithoutCommas = input.value.replaceAll(',', '');
                 numWithoutCommas += e.key;
-                num = +numWithoutCommas;
-                input.value = num.toLocaleString();
-                output.value = convertNumberToPersianWords(num);
+                if (numWithoutCommas.includes('.')) {
+                    num = +numWithoutCommas.split('.')[0];
+                    decimalNum = +numWithoutCommas.split('.')[1];
+                    input.value = num.toLocaleString() + '.' + decimalNum;
+                } else {
+                    num = +numWithoutCommas;
+                    input.value = num.toLocaleString();
+                }
+                output.value = convertNumberToPersianWords(
+                    num + '.' + decimalNum
+                );
                 break;
             }
         return false;
