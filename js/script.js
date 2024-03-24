@@ -108,4 +108,4 @@ getInput.onkeydown = (e) => {
 };
 
 input.focus();
-output.value = '';
+clear();
