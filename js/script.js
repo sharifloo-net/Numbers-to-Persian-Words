@@ -77,7 +77,7 @@ getInput.onkeydown = (e) => {
         else if (input.value !== '') {
             numWithoutCommas = input.value.replaceAll(',', '');
             numWithoutCommas = numWithoutCommas.slice(0, -1);
-            num = Number(numWithoutCommas);
+            num = +numWithoutCommas;
             input.value = num.toLocaleString();
             output.value = convertNumberToPersianWords(num);
         }
