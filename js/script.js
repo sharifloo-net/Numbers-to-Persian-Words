@@ -118,7 +118,7 @@ getInput.onkeydown = (e) => {
                 numWithoutCommas += e.key;
                 if (numWithoutCommas.includes('.')) {
                     num = +numWithoutCommas.split('.')[0];
-                    decimalNum = +numWithoutCommas.split('.')[1];
+                    decimalNum = numWithoutCommas.split('.')[1];
                     input.value = num.toLocaleString() + '.' + decimalNum;
                 } else {
                     num = +numWithoutCommas;
