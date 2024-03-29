@@ -270,7 +270,8 @@ function convertNumberToPersianWords(number) {
                 if (words) words = segmentWords + words;
                 else words += segmentWords;
             }
-            if (decimalSegmentWords) decimalWords += decimalSegmentWords;
+            if (decimalSegmentWords)
+                decimalWords = decimalSegmentWords + decimalWords;
         } else {
             if (segmentWords) preWords += segmentWords;
             if (decimalSegmentWords) preDecimalWords += decimalSegmentWords;
@@ -323,4 +324,4 @@ function convertNumberToPersianWords(number) {
 
 export { convertNumberToPersianWords };
 
-console.log(convertNumberToPersianWords(5.2));
+console.log(convertNumberToPersianWords(0.2345461));
