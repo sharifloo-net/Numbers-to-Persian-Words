@@ -1,4 +1,4 @@
-function convertNumberToPersianWords(number) {
+const convertNumberToPersianWords = (number) => {
     number = +number;
 
     const persianNumbers = [
@@ -327,7 +327,7 @@ function convertNumberToPersianWords(number) {
         words = words.trim().slice(0, -1);
 
     return words.trim();
-}
+};
 
 export { convertNumberToPersianWords };
 
