@@ -319,7 +319,10 @@ function convertNumberToPersianWords(number) {
         }
         count++;
     }
+
     if (isNegative) words = 'منفی ' + words;
+    if (words.trim().endsWith('و')) words = words.trim().slice(0, -1);
+
     return words.trim();
 }
 
