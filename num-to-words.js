@@ -1,4 +1,6 @@
 function convertNumberToPersianWords(number) {
+    number = +number;
+
     const persianNumbers = [
         'صفر',
         'یک',
