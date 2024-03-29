@@ -323,7 +323,8 @@ function convertNumberToPersianWords(number) {
     }
 
     if (isNegative) words = 'منفی ' + words;
-    if (words.trim().endsWith('و')) words = words.trim().slice(0, -1);
+    if (words.trim().endsWith('و') && words.trim().slice(-2) !== 'دو')
+        words = words.trim().slice(0, -1);
 
     return words.trim();
 }
