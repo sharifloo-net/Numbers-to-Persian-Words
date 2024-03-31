@@ -45,7 +45,8 @@ const allowedKeys = [
     'NumpadAdd',
     'NumpadSubtract',
 ];
-const clear = () => (input.value = output.value = '');
+let inputVal, outputVal;
+const clear = () => (inputVal = outputVal = input.value = output.value = '');
 
 document.getElementById('clear').onclick = clear;
 getInput.onkeydown = (e) => {
@@ -54,8 +55,9 @@ getInput.onkeydown = (e) => {
     let numWithoutCommas,
         num,
         decimalNum = '',
-        eCode = e.code,
-        inputVal = input.value;
+        eCode = e.code;
+    inputVal = input.value;
+    outputVal = output.value;
 
     if ((eCode === 'KeyR' && e.ctrlKey) || e.metaKey || eCode === 'F5') {
         location.reload();
@@ -69,7 +71,8 @@ getInput.onkeydown = (e) => {
         else inputVal = inputVal.replace('-', '');
         numWithoutCommas = inputVal.replace(',', '');
         input.value = inputVal;
-        output.value = convertNumberToPersianWords(numWithoutCommas);
+        output.value = outputVal =
+            convertNumberToPersianWords(numWithoutCommas);
         return false;
     } else if (eCode === 'Backspace') {
         let inputRegexMatch;
@@ -97,26 +100,26 @@ getInput.onkeydown = (e) => {
 
                 num = +numWithoutCommas.split('.')[0];
                 decimalNum = numWithoutCommas.split('.')[1];
-                input.value = num.toLocaleString() + '.' + decimalNum;
-                output.value = convertNumberToPersianWords(
-                    num + '.' + decimalNum
-                );
+                inputVal = num.toLocaleString() + '.' + decimalNum;
+                outputVal = convertNumberToPersianWords(num + '.' + decimalNum);
             } else {
                 //* if only decimal number or integer number exists
 
                 if (numWithoutCommas.toString().includes('.'))
-                    num = input.value = numWithoutCommas;
+                    num = inputVal = numWithoutCommas;
                 else {
                     num = +numWithoutCommas;
-                    input.value = num.toLocaleString();
+                    inputVal = num.toLocaleString();
                 }
-                output.value = convertNumberToPersianWords(num);
+                outputVal = convertNumberToPersianWords(num);
             }
         }
+        input.value = inputVal;
+        output.value = outputVal;
         return false;
     } else if (eCode == 'Period' || eCode == 'NumpadDecimal') {
         if (inputVal.includes('.')) return false;
-        input.value += '.';
+        inputVal += '.';
     }
 
     let isItInAllowedKeys = allowedKeys.some(
@@ -134,17 +137,17 @@ getInput.onkeydown = (e) => {
                             ? '-0'
                             : +numWithoutCommas.split('.')[0];
                     decimalNum = numWithoutCommas.split('.')[1];
-                    input.value = num.toLocaleString() + '.' + decimalNum;
+                    inputVal = num.toLocaleString() + '.' + decimalNum;
                 } else {
                     num = +numWithoutCommas;
-                    input.value = num.toLocaleString();
+                    inputVal = num.toLocaleString();
                 }
-                output.value = convertNumberToPersianWords(
-                    num + '.' + decimalNum
-                );
+                outputVal = convertNumberToPersianWords(num + '.' + decimalNum);
                 return true;
             }
         });
+        input.value = inputVal;
+        output.value = outputVal;
         return false;
     }
 };
