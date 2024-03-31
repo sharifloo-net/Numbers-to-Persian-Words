@@ -26,6 +26,7 @@ const numbers = [
     'Digit9',
 ];
 const allowedKeys = [
+    'Escape',
     'Delete',
     'ArrowUp',
     'ArrowDown',
@@ -44,58 +45,53 @@ const allowedKeys = [
     'NumpadAdd',
     'NumpadSubtract',
 ];
-const importantKeys = ['NumpadDecimal', 'Period', 'Backspace'];
-const clear = () => {
-    input.value = output.value = '';
-};
-document.getElementById('clear').onclick = () => {
-    clear();
-};
+const clear = () => (input.value = output.value = '');
+
+document.getElementById('clear').onclick = clear;
 getInput.onkeydown = (e) => {
-    //* Vars for Backspace & Number keys
+    //* Vars for Backspace, Number keys & clean up code
 
     let numWithoutCommas,
         num,
-        decimalNum = '';
+        decimalNum = '',
+        eCode = e.code,
+        inputVal = input.value;
 
-    if ((e.code === 'KeyR' && e.ctrlKey) || e.metaKey || e.code === 'F5') {
+    if ((eCode === 'KeyR' && e.ctrlKey) || e.metaKey || eCode === 'F5') {
         location.reload();
         return true;
-    } else if ((e.code === 'F5' && e.ctrlKey) || e.metaKey) {
+    } else if ((eCode === 'F5' && e.ctrlKey) || e.metaKey) {
         location.reload(true);
         return true;
-    } else if (e.code === 'Delete' || e.code === 'Escape') clear();
+    } else if (eCode === 'Delete' || eCode === 'Escape') clear();
     else if (
-        (e.code === 'NumpadSubtract' || e.code === 'Minus') &&
-        !input.value.includes('-')
+        (eCode === 'NumpadSubtract' || eCode === 'Minus') &&
+        !inputVal.includes('-')
     )
         input.value = '-' + input.value;
-    else if (e.code === 'Backspace') {
+    else if (eCode === 'Backspace') {
         let inputRegexMatch;
         try {
-            if (input.value.includes('-')) input.value.match(/^-0\.\d\b/)[0];
-            else input.value.match(/^0\.\d\b/)[0];
+            if (inputVal.includes('-')) inputVal.match(/^-0\.\d\b/)[0];
+            else inputVal.match(/^0\.\d\b/)[0];
             inputRegexMatch = true;
         } catch {
             inputRegexMatch = false;
         }
         if (
-            input.value.length === 1 ||
+            inputVal.length === 1 ||
             inputRegexMatch ||
-            (input.value.includes('-') && input.value.length === 2) ||
-            (input.value.includes('-') &&
-                input.value.includes('.') &&
-                input.value.length === 3)
+            (inputVal.includes('-') && inputVal.length === 2) ||
+            (inputVal.includes('-') &&
+                inputVal.includes('.') &&
+                inputVal.length === 3)
         )
             clear();
-        else if (input.value !== '') {
-            numWithoutCommas = input.value.replaceAll(',', '');
+        else if (inputVal) {
+            numWithoutCommas = inputVal.replaceAll(',', '');
             numWithoutCommas = numWithoutCommas.slice(0, -1);
-            if (
-                numWithoutCommas.includes('.') &&
-                numWithoutCommas.split('.').length === 2
-            ) {
-                //* if both decimal number and integer number are exist
+            if (numWithoutCommas.split('.').length === 2) {
+                //* if both decimal number and integer number exist
 
                 num = +numWithoutCommas.split('.')[0];
                 decimalNum = numWithoutCommas.split('.')[1];
@@ -116,25 +112,19 @@ getInput.onkeydown = (e) => {
             }
         }
         return false;
-    } else if (e.code == 'Period' || e.code == 'NumpadDecimal') {
-        if (input.value.includes('.')) return false;
+    } else if (eCode == 'Period' || eCode == 'NumpadDecimal') {
+        if (inputVal.includes('.')) return false;
         input.value += '.';
     }
 
-    let isItInAllowedKeys = false;
-
-    for (let i = allowedKeys.length - 1; i >= 0; i--) {
-        if (e.code.includes(allowedKeys[i])) {
-            isItInAllowedKeys = true;
-            break;
-        }
-    }
+    let isItInAllowedKeys = allowedKeys.some(
+        (allowedKey) => eCode === allowedKey
+    );
 
     if (!isItInAllowedKeys) {
-        for (let i = numbers.length - 1; i >= 0; i--)
-            if (e.code.includes(numbers[i])) {
-                if (isNaN(e.key)) return false;
-                numWithoutCommas = input.value.replaceAll(',', '');
+        numbers.some((number) => {
+            if (eCode === number) {
+                numWithoutCommas = inputVal.replaceAll(',', '');
                 numWithoutCommas += e.key;
                 if (numWithoutCommas.includes('.')) {
                     num =
@@ -150,8 +140,9 @@ getInput.onkeydown = (e) => {
                 output.value = convertNumberToPersianWords(
                     num + '.' + decimalNum
                 );
-                break;
+                return true;
             }
+        });
         return false;
     }
 };
