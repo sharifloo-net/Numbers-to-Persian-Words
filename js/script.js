@@ -65,15 +65,29 @@ getInput.onkeydown = (e) => {
         location.reload(true);
         return true;
     } else if (e.code === 'Delete' || e.code === 'Escape') clear();
+    else if (
+        (e.code === 'NumpadSubtract' || e.code === 'Minus') &&
+        !input.value.includes('-')
+    )
+        input.value = '-' + input.value;
     else if (e.code === 'Backspace') {
         let inputRegexMatch;
         try {
-            input.value.match(/^0\.\d\b/)[0];
+            if (input.value.includes('-')) input.value.match(/^-0\.\d\b/)[0];
+            else input.value.match(/^0\.\d\b/)[0];
             inputRegexMatch = true;
         } catch {
             inputRegexMatch = false;
         }
-        if (input.value.length === 1 || inputRegexMatch) clear();
+        if (
+            input.value.length === 1 ||
+            inputRegexMatch ||
+            (input.value.includes('-') && input.value.length === 2) ||
+            (input.value.includes('-') &&
+                input.value.includes('.') &&
+                input.value.length === 3)
+        )
+            clear();
         else if (input.value !== '') {
             numWithoutCommas = input.value.replaceAll(',', '');
             numWithoutCommas = numWithoutCommas.slice(0, -1);
@@ -120,7 +134,10 @@ getInput.onkeydown = (e) => {
                 numWithoutCommas = input.value.replaceAll(',', '');
                 numWithoutCommas += e.key;
                 if (numWithoutCommas.includes('.')) {
-                    num = +numWithoutCommas.split('.')[0];
+                    num =
+                        numWithoutCommas.split('.')[0] === '-'
+                            ? '-0'
+                            : +numWithoutCommas.split('.')[0];
                     decimalNum = numWithoutCommas.split('.')[1];
                     input.value = num.toLocaleString() + '.' + decimalNum;
                 } else {
