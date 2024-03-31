@@ -46,11 +46,9 @@ const allowedKeys = [
     'NumpadSubtract',
 ];
 let inputVal = '',
-    outputVal = '',
-    isNegative = false;
+    outputVal = '';
 const clear = () => {
     inputVal = outputVal = input.value = output.value = '';
-    isNegative = false;
 };
 
 document.getElementById('clear').onclick = clear;
@@ -73,13 +71,8 @@ getInput.onkeydown = (e) => {
         return true;
     } else if (eCode === 'Delete' || eCode === 'Escape') clear();
     else if (eCode === 'NumpadSubtract' || eCode === 'Minus') {
-        if (!inputVal.includes('-')) {
-            inputVal = '-' + inputVal;
-            isNegative = true;
-        } else {
-            inputVal = inputVal.replace('-', '');
-            isNegative = false;
-        }
+        if (!inputVal.includes('-')) inputVal = '-' + inputVal;
+        else inputVal = inputVal.replace('-', '');
         numWithoutCommas = inputVal.replace(',', '');
         input.value = inputVal;
         output.value = outputVal =

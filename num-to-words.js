@@ -109,7 +109,6 @@ const convertNumberToPersianWords = (number) => {
         isOnlyDecimal = false;
     let words = '',
         preWords = '',
-        decimalAndIntSeparator = '',
         decimalWords = '',
         preDecimalWords = '';
     let segments = [],
