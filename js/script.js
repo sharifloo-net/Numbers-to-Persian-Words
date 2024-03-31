@@ -64,12 +64,14 @@ getInput.onkeydown = (e) => {
         location.reload(true);
         return true;
     } else if (eCode === 'Delete' || eCode === 'Escape') clear();
-    else if (
-        (eCode === 'NumpadSubtract' || eCode === 'Minus') &&
-        !inputVal.includes('-')
-    )
-        input.value = '-' + input.value;
-    else if (eCode === 'Backspace') {
+    else if (eCode === 'NumpadSubtract' || eCode === 'Minus') {
+        if (!inputVal.includes('-')) inputVal = '-' + inputVal;
+        else inputVal = inputVal.replace('-', '');
+        numWithoutCommas = inputVal.replace(',', '');
+        input.value = inputVal;
+        output.value = convertNumberToPersianWords(numWithoutCommas);
+        return false;
+    } else if (eCode === 'Backspace') {
         let inputRegexMatch;
         try {
             if (inputVal.includes('-')) inputVal.match(/^-0\.\d\b/)[0];
