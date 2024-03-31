@@ -91,7 +91,10 @@ getInput.onkeydown = (e) => {
         else if (input.value !== '') {
             numWithoutCommas = input.value.replaceAll(',', '');
             numWithoutCommas = numWithoutCommas.slice(0, -1);
-            if (numWithoutCommas.includes('.') && numWithoutCommas >= 1) {
+            if (
+                numWithoutCommas.includes('.') &&
+                numWithoutCommas.split('.').length === 2
+            ) {
                 //* if both decimal number and integer number are exist
 
                 num = +numWithoutCommas.split('.')[0];
