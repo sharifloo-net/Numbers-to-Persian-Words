@@ -89,9 +89,12 @@ getInput.onkeydown = (e) => {
             } else {
                 //* if only decimal number or integer number exists
 
-                num = +numWithoutCommas;
-                if (num >= 1) input.value = num.toLocaleString();
-                else input.value = num;
+                if (numWithoutCommas.toString().includes('.'))
+                    num = input.value = numWithoutCommas;
+                else {
+                    num = +numWithoutCommas;
+                    input.value = num.toLocaleString();
+                }
                 output.value = convertNumberToPersianWords(num);
             }
         }
