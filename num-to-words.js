@@ -119,7 +119,8 @@ const convertNumberToPersianWords = (number) => {
     else if (number < 0) {
         number = Math.abs(number);
         isNegative = true;
-    } else if (number > 0 && number < 1) isOnlyDecimal = true;
+    }
+    if (number > 0 && number < 1) isOnlyDecimal = true;
     if (number === Math.floor(number)) pushNumInSegments(number, segments);
     else {
         let integerPart = number.toString().split('.')[0];
