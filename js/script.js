@@ -45,17 +45,23 @@ const allowedKeys = [
     'NumpadAdd',
     'NumpadSubtract',
 ];
-let inputVal, outputVal;
-const clear = () => (inputVal = outputVal = input.value = output.value = '');
+let inputVal = '',
+    outputVal = '',
+    isNegative = false;
+const clear = () => {
+    inputVal = outputVal = input.value = output.value = '';
+    isNegative = false;
+};
 
 document.getElementById('clear').onclick = clear;
 getInput.onkeydown = (e) => {
     //* Vars for Backspace, Number keys & clean up code
 
     let numWithoutCommas,
-        num,
+        num = '',
         decimalNum = '',
         eCode = e.code;
+
     inputVal = input.value;
     outputVal = output.value;
 
@@ -67,8 +73,13 @@ getInput.onkeydown = (e) => {
         return true;
     } else if (eCode === 'Delete' || eCode === 'Escape') clear();
     else if (eCode === 'NumpadSubtract' || eCode === 'Minus') {
-        if (!inputVal.includes('-')) inputVal = '-' + inputVal;
-        else inputVal = inputVal.replace('-', '');
+        if (!inputVal.includes('-')) {
+            inputVal = '-' + inputVal;
+            isNegative = true;
+        } else {
+            inputVal = inputVal.replace('-', '');
+            isNegative = false;
+        }
         numWithoutCommas = inputVal.replace(',', '');
         input.value = inputVal;
         output.value = outputVal =
@@ -98,9 +109,9 @@ getInput.onkeydown = (e) => {
             if (numWithoutCommas.split('.').length === 2) {
                 //* if both decimal number and integer number exist
 
-                num = +numWithoutCommas.split('.')[0];
+                num = numWithoutCommas.split('.')[0];
                 decimalNum = numWithoutCommas.split('.')[1];
-                inputVal = num.toLocaleString() + '.' + decimalNum;
+                inputVal = Number(num).toLocaleString() + '.' + decimalNum;
                 outputVal = convertNumberToPersianWords(num + '.' + decimalNum);
             } else {
                 //* if only decimal number or integer number exists
@@ -132,12 +143,11 @@ getInput.onkeydown = (e) => {
                 numWithoutCommas = inputVal.replaceAll(',', '');
                 numWithoutCommas += e.key;
                 if (numWithoutCommas.includes('.')) {
-                    num =
-                        numWithoutCommas.split('.')[0] === '-'
-                            ? '-0'
-                            : +numWithoutCommas.split('.')[0];
-                    decimalNum = numWithoutCommas.split('.')[1];
-                    inputVal = num.toLocaleString() + '.' + decimalNum;
+                    let numArr = numWithoutCommas.split('.');
+                    if (numArr[0] === '-') num = '-0';
+                    else num = numArr[0];
+                    decimalNum = numArr[1];
+                    inputVal = Number(num).toLocaleString() + '.' + decimalNum;
                 } else {
                     num = +numWithoutCommas;
                     inputVal = num.toLocaleString();
